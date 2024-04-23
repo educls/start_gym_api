@@ -20,18 +20,21 @@ exports.post = async (req: Request, res: Response) => {
         }
 
         let user = await loginUser.returnUserBasedEmailPassword(email, password);
+        let userWithEmailOnly = await loginUser.returnUserBasedEmail(email);
         if (user) {
             const token: String = createToken(user.id, user.name, user.email, user.password);
             await loginUser.resetAttemptsBasedEmail(email);
-            res.status(200).json({ mensagem: "Login bem-sucedido", token });
+            res.status(200).json({ mensagem: "Login bem-sucedido", token, tentativas: 0 });
         } else {
             attempt = await loginUser.returnUserAttempts(email);
-            if(attempt.login_attempts < MAX_LOGIN_ATTEMPTS){
+            if(user == undefined && userWithEmailOnly !== undefined && attempt.login_attempts < MAX_LOGIN_ATTEMPTS){
                 await loginUser.incrementLoginAttemptBasedEmail(email);
+            }else{
+                res.status(401).json({ mensagem: "Usuário não encontrado", tentativas: 0 });
             }
             attemptForResponse = await loginUser.returnUserAttempts(email);
             console.log(attemptForResponse)
-            if (attemptForResponse.login_attempts == MAX_LOGIN_ATTEMPTS) {
+            if (userWithEmailOnly !== undefined && user == undefined && attemptForResponse.login_attempts == MAX_LOGIN_ATTEMPTS) {
                 const blockedAt = new Date();
                 const blockUntil = new Date();
                 blockUntil.setMinutes(blockUntil.getMinutes() + BLOCK_DURATION_MINUTES);
@@ -43,7 +46,7 @@ exports.post = async (req: Request, res: Response) => {
                 res.status(401).json({ mensagem: "Usuário bloqueado devido a múltiplas tentativas de login falhas", tentativas: attemptForResponse.login_attempts }); 
             }
         }
-        if(!user && attemptForResponse.login_attempts < MAX_LOGIN_ATTEMPTS){
+        if(userWithEmailOnly && user == undefined && attemptForResponse.login_attempts < MAX_LOGIN_ATTEMPTS){
             res.status(401).json({ mensagem: "Credenciais inválidas", tentativas: attemptForResponse.login_attempts });
         }
 

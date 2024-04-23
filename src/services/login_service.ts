@@ -27,6 +27,15 @@ class LoginUser{
         return rows;
     }
 
+    public async returnUserBasedEmail(email: String): Promise<any>{
+        await db.connect();
+
+        const [rows]: any[] = await db.query('select * from usuarios where email = ? AND blocked = false', [email]);
+
+        await db.close();
+        return rows;
+    }
+
     public async resetAttemptsBasedEmail(email: String){
         await db.connect();
 
