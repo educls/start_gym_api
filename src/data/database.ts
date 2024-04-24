@@ -3,10 +3,10 @@ const config = require('../../knexfile');
 
 class Database {
     connection: any;
-
+// teste conexão git apdaura
     constructor() {
         this.connection = null;
-    }
+    } 
 
     async connect() {
         try {
