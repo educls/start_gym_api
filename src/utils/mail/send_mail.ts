@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const generate_code = require('../generate/generate_code')
 
-function sendMailVerify(email: String) {
+function sendMailVerify(email: String, name: String) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -16,8 +16,27 @@ function sendMailVerify(email: String) {
     const mailOptions = {
         from: 'saudeconectasuporte@gmail.com',
         to: email,
-        subject: 'Reset Password',
-        text: `reset de senha \n \n \n http://192.168.86.11:3000/reset-password?email=${email}`,
+        subject: 'Redefinição de Senha StartGym',
+        html: `
+            <p><img src="cid:logo_for_email" width=500></p>
+            <br>
+            <p>Olá ${name},</p>
+            <p>Foi feita uma solicitação para redefinição de senha em sua conta <br>Por favor, clique no link abaixo para redefinir sua senha:</p>
+            <br>
+            <h2><a href="http://192.168.86.11:3000/reset-password?email=${email}">Redefinir Senha</a></h2>
+            <p>Se você não solicitou essa redefinição de senha, ignore este e-mail.</p>
+            <br>
+            <p>Atenciosamente.</p>
+            <p>Equipe de suporte</p>
+            <p>Start Gym</p>
+        `,
+        attachments: [
+            {
+                filename: 'img_logo_email.jpg',
+                path: 'src/assets/img_logo_email.jpg',
+                cid: 'logo_for_email'
+            }
+        ]
     };
 
     return new Promise((resolve, reject) => {

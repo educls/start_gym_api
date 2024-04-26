@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import Password from '../services/password_service';
+import PasswordRecovery from '../services/recovery_password_service';
 import LoginUser from '../services/login_service';
 
-const password = new Password();
+const passwordRecovery = new PasswordRecovery();
 const loginUser = new LoginUser();
 
 
@@ -14,7 +14,8 @@ exports.post = async (req: Request, res: Response) => {
         const isValidEmail = await loginUser.returnIfEmailExists(email);
         if(isValidEmail){
             const services = email.split('@')[1].split('.')[0];
-            const result = await password.sendEmailForResetPassword(email, services);
+            let user = await loginUser.returnUserBasedEmail(email);
+            const result = await passwordRecovery.sendEmailForResetPassword(email, user.name);
             res.status(200).json(
                 {message: "Email enviado com sucesso"}
             )

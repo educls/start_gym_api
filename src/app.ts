@@ -27,7 +27,8 @@ app.get('/helloworld', (req, res) => {
 
 app.use('/login', require('./routes/login_routes'));
 app.use('/usuarios', require('./routes/users_routes'));
-app.use('/send-email-reset-password', require('./routes/password_routes'));
+app.use('/send-email-reset-password', require('./routes/recovery_password_routes'));
+app.use('/verifica-forca-senha', require('./routes/rating_password_routes'));
 
 
 // Onde o servidor está rodando

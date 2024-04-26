@@ -15,6 +15,10 @@ exports.post = async (req: Request, res: Response) => {
         const currentTime = new Date();
         let timeBlockChecked = await loginUser.returnIfTimeBlockedPass(currentTime, email);
 
+        if(email == undefined && password == undefined){
+            res.status(401).json({ mensagem: "Campos Vazios(email e senha)", tentativas: 0 });
+        }
+
         if(timeBlockChecked == 'unlock'){
             await loginUser.unblockUser(email);
         }
@@ -30,7 +34,7 @@ exports.post = async (req: Request, res: Response) => {
             if(user == undefined && userWithEmailOnly !== undefined && attempt.login_attempts < MAX_LOGIN_ATTEMPTS){
                 await loginUser.incrementLoginAttemptBasedEmail(email);
             }else{
-                res.status(401).json({ mensagem: "Usuário não encontrado", tentativas: 0 });
+                res.status(401).json({ mensagem: "Email Inválido", tentativas: 0 });
             }
             attemptForResponse = await loginUser.returnUserAttempts(email);
             console.log(attemptForResponse)
@@ -47,7 +51,7 @@ exports.post = async (req: Request, res: Response) => {
             }
         }
         if(userWithEmailOnly && user == undefined && attemptForResponse.login_attempts < MAX_LOGIN_ATTEMPTS){
-            res.status(401).json({ mensagem: "Credenciais inválidas", tentativas: attemptForResponse.login_attempts });
+            res.status(401).json({ mensagem: "Senha Inválida", tentativas: attemptForResponse.login_attempts });
         }
 
         // if (!user) {
@@ -97,6 +101,6 @@ exports.post = async (req: Request, res: Response) => {
 
     } catch (err) {
         console.log(err);
-        // res.status(500).json({ mensagem: "Ocorreu um erro no servidor" });
+        res.status(500).json({ mensagem: "Ocorreu um erro no servidor" });
     }
 };

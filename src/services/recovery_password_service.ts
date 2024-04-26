@@ -5,17 +5,17 @@ const sendMail = require('../utils/mail/send_mail');
 const db = new Database();
 
 
-class Password{
+class PasswordRecovery{
     private db: Database;
     constructor() {
         this.db = new Database();
     }
 
-    public async sendEmailForResetPassword(email: String, service: String): Promise<any>{
-        const result = await sendMail(email);
+    public async sendEmailForResetPassword(email: String, name: String): Promise<any>{
+        const result = await sendMail(email, name);
 
         return result;
     }
 }
 
-export default Password;
+export default PasswordRecovery;
