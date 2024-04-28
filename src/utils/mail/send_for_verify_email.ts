@@ -1,8 +1,8 @@
-const nodemailer = require('nodemailer');
-const generate_code = require('../generate/generate_code')
+const nodemailerr = require('nodemailer');
+const generate_codee = require('../generate/generate_code')
 
-function sendMailVerify(email: String, name: String) {
-    const transporter = nodemailer.createTransport({
+function sendForVerifyEmail(token: String, email: String) {
+    const transporter = nodemailerr.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,
@@ -11,20 +11,20 @@ function sendMailVerify(email: String, name: String) {
             pass: 'lqhz sixu xoyy jjxl',
         },
     });
-    const codVerify =  generate_code()
+    const codVerify =  generate_codee()
 
     const mailOptions = {
         from: 'startgymsuporte@gmail.com',
         to: email,
-        subject: 'Redefinição de Senha StartGym',
+        subject: 'Confirmação de Email StartGym',
         html: `
             <p><img src="cid:logo_for_email" width=500></p>
             <br>
-            <p>Olá ${name},</p>
-            <p>Foi feita uma solicitação para redefinição de senha em sua conta <br>Por favor, clique no link abaixo para redefinir sua senha:</p>
+            <p>Olá ${email},</p>
+            <p>Foi feita uma solicitação para a criação de uma conta <br>Por favor, clique no link abaixo para confirmar seu email:</p>
             <br>
-            <h2><a href="http://192.168.86.11:3000/reset-password?email=${email}">Redefinir Senha</a></h2>
-            <p>Se você não solicitou essa redefinição de senha, ignore este e-mail.</p>
+            <h2><a href="http://192.168.86.11:3000/confirmar-email/${token}">Confirmar Email</a></h2>
+            <p>Se você não solicitou essa criação de conta, ignore este e-mail.</p>
             <br>
             <p>Atenciosamente.</p>
             <p>Equipe de suporte</p>
@@ -45,11 +45,11 @@ function sendMailVerify(email: String, name: String) {
                 console.log(error);
                 reject(error);
             } else {
-                console.log('E-mail de redefinição de senha enviado: ' + info.response);
+                console.log('E-mail de confirmação enviado com sucesso: ' + info.response);
                 resolve(codVerify);
             }
         });
     });
 }
 
-module.exports = sendMailVerify;
+module.exports = sendForVerifyEmail;

@@ -32,7 +32,17 @@ const createDatabase = async () => {
     console.log('Tabela de usuários criada com sucesso!');
 
     await connection.query(`insert into usuarios (name, email, password) values ('teste', 'teste@teste.br', '000')`);
+    await connection.query(`insert into usuarios (name, email, password) values ('Eduardo', '3duardocesar@gmail.com', '111')`);
     console.log('Usuário teste criado!')
+
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS emailverificationrequests (
+        token VARCHAR(255) NOT NULL UNIQUE,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        email_verified BOOLEAN DEFAULT FALSE
+      )
+    `);
+    console.log('Tabela para verificação de email criada com sucesso!')
 
   } catch (error) {
     console.error('Erro ao criar o banco de dados e a tabela de usuários:', error);

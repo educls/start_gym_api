@@ -29,6 +29,9 @@ app.use('/login', require('./routes/login_routes'));
 app.use('/usuarios', require('./routes/users_routes'));
 app.use('/send-email-reset-password', require('./routes/recovery_password_routes'));
 app.use('/verifica-forca-senha', require('./routes/rating_password_routes'));
+app.use('/verifica-email', require('./routes/verify_email_routes'));
+app.use('/confirmar-email', require('./routes/confirm_email_routes'));
+app.use('/check-if-email-is-verified', require('./routes/check_ifEmail_isVerified_routes'));
 
 
 // Onde o servidor está rodando
