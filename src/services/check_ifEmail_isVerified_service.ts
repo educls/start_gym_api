@@ -17,6 +17,15 @@ class CheckIfEmailIsVerified{
         await db.close();
         return rows;
     }
+
+    public async deleteEmailForVerification(email: String): Promise<any>{
+        await db.connect();
+
+        const rows = await db.query('DELETE FROM emailverificationrequests where email = ?', [email]);
+
+        await db.close();
+        return rows;
+    }
 }
 
 export default CheckIfEmailIsVerified;
