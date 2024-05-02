@@ -2,11 +2,11 @@ import Database from '../data/database';
 
 const db = new Database();
 
-exports.postUser = async (name: String, email: String, password: String) => {
+exports.postUser = async (accountType: String, photo: String, name: String, numberWhats: String, email: String, password: String) => {
 
     await db.connect();
 
-    const rows: any[] = await db.query('insert into usuarios (name, email, password) values (?, ?, ?)', [name, email, password]);
+    const rows: any[] = await db.query('insert into usuarios (accounttype, photo, name, numberwhats, email, password) values (?, ?, ?, ?, ?, ?)', [accountType, photo, name, numberWhats, email, password]);
 
     await db.close();
     return rows;

@@ -2,8 +2,8 @@ import express from 'express';
 const path = require('path');
 const app = express();
 const PORT = 3000;
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
+app.use(express.json({limit: '5mb'}));
 
 // Apenas para deixar o console verde
 const greenConsoleLog = (message: string) => {

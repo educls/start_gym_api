@@ -18,7 +18,10 @@ const createDatabase = async () => {
     await connection.query(`
       CREATE TABLE IF NOT EXISTS usuarios (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        accounttype VARCHAR(255) NOT NULL,
+        photo blob,
         name VARCHAR(255) NOT NULL,
+        numberwhats VARCHAR(255) NOT NULL UNIQUE,
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
         blocked BOOLEAN DEFAULT false,
@@ -31,8 +34,7 @@ const createDatabase = async () => {
     `);
     console.log('Tabela de usuários criada com sucesso!');
 
-    await connection.query(`insert into usuarios (name, email, password) values ('teste', 'teste@teste.br', '000')`);
-    await connection.query(`insert into usuarios (name, email, password) values ('Eduardo', '3duardocesar@gmail.com', '111')`);
+    await connection.query(`insert into usuarios (accounttype, name, numberwhats, email, password) values ('aluno', 'teste', '123456789', 'teste@teste.br', '000')`);
     console.log('Usuário teste criado!')
 
     await connection.query(`
