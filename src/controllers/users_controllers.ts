@@ -38,9 +38,11 @@ exports.postResetPassword = async (req: Request, res: Response) => {
 
 exports.get = async (req: any, res: Response) => {
     try{
+        const photoBytesRes = await users_service.getImgUser(req.user.id)
+        const textData: string = photoBytesRes.toString('utf-8');
 
         if (req.user) {
-            res.status(200).json(req.user)
+            res.status(200).json({mensagem: req.user, photo: textData})
         }else{
             res.status(401).json({ mensagem: "Token inválido / token expirado"})
         }

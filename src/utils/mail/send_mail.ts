@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const generate_code = require('../generate/generate_code')
+import { BASE_URL } from '../constants/constants';
 
 function sendMailVerify(email: String, name: String) {
     const transporter = nodemailer.createTransport({
@@ -23,7 +24,7 @@ function sendMailVerify(email: String, name: String) {
             <p>Olá ${name},</p>
             <p>Foi feita uma solicitação para redefinição de senha em sua conta <br>Por favor, clique no link abaixo para redefinir sua senha:</p>
             <br>
-            <h2><a href="http://192.168.86.11:3000/reset-password?email=${email}">Redefinir Senha</a></h2>
+            <h2><a href="${BASE_URL}/reset-password?email=${email}">Redefinir Senha</a></h2>
             <p>Se você não solicitou essa redefinição de senha, ignore este e-mail.</p>
             <br>
             <p>Atenciosamente.</p>
