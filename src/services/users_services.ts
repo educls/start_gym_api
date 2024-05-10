@@ -12,6 +12,52 @@ exports.postUser = async (accountType: String, photo: Int8Array[], name: String,
     return rows;
 }
 
+exports.updateUserPhoto = async (userId: number, photo: string) => {
+    await db.connect();
+
+    const rows: any[] = await db.query('update usuarios set photo = ? where id = ?', [photo, userId]);
+
+    await db.close();
+    return rows;
+}
+
+exports.updateUserName = async (userId: number, name: string) => {
+    await db.connect();
+
+    const rows: any[] = await db.query('update usuarios set name = ? where id = ?', [name, userId]);
+
+    await db.close();
+    return rows;
+}
+
+exports.updateUserNumberWhats = async (userId: number, numberWhats: string) => {
+    await db.connect();
+
+    const rows: any[] = await db.query('update usuarios set numberwhats = ? where id = ?', [numberWhats, userId]);
+
+    await db.close();
+    return rows;
+}
+
+exports.updateUserEmail = async (userId: number, email: string) => {
+    await db.connect();
+
+    const rows: any[] = await db.query('update usuarios set email = ? where id = ?', [email, userId]);
+
+    await db.close();
+    return rows;
+}
+
+exports.updateUserPassword = async (userId: number, password: string) => {
+    await db.connect();
+
+    const rows: any[] = await db.query('update usuarios set password = ? where id = ?', [password, userId]);
+
+    await db.close();
+    return rows;
+}
+
+
 exports.resetPasswordUser = async (email: String, newPassword: String) => {
 
     await db.connect();

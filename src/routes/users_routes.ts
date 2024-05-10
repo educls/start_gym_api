@@ -5,6 +5,8 @@ const auth_verify = require('../middleware/auth_verify')
 
 Router.post('/', users_controller.post);
 
+Router.put('/edit_user', auth_verify, users_controller.putUser);
+
 Router.post('/reset-password', users_controller.postResetPassword);
 
 Router.get('/get-user-info', auth_verify, users_controller.get);

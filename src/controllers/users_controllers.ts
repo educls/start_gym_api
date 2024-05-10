@@ -9,13 +9,51 @@ exports.post = async (req: Request, res: Response) => {
         const result = await users_service.postUser(accountType, photo, name, numWhats, email, password);
 
         if (result == undefined) {
-            res.status(401).json({ mensagem: "Usuario não Cadastrado"})
+            res.status(401).json({ mensagem: "Usuario não Cadastrado"});
         }else if(result.affectedRows == 1){
-            res.status(201).json({ mensagem: "Usuario Cadastrado", data: result})
+            res.status(201).json({ mensagem: "Usuario Cadastrado", data: result});
         }
 
     }catch(err){
         console.log(err);
+    }
+}
+
+exports.putUser = async (req: any, res: Response) => {
+    try{
+        const userID: number = req.user.id;
+        const { photo, name, numWhats, email, password } = req.body;
+        let affectedRows: number = 0;
+
+        if (photo) {
+            const result = await users_service.updateUserPhoto(userID, photo);
+            affectedRows += result.affectedRows;
+        }
+        if (name) {
+            const result = await users_service.updateUserName(userID, name);
+            affectedRows += result.affectedRows;
+        }
+        if (numWhats) {
+            const result = await users_service.updateUserNumberWhats(userID, numWhats);
+            affectedRows += result.affectedRows;
+        }
+        if (email) {
+            const result = await users_service.updateUserEmail(userID, email);
+            affectedRows += result.affectedRows;
+        }
+        if (password) {
+            const result = await users_service.updateUserPassword(userID, password);
+            affectedRows += result.affectedRows;
+        }
+
+        if(affectedRows > 0){
+            res.status(201).json({ mensagem: "Usuario atualizado"});
+        }else{
+            res.status(401).json({ mensagem: "Nenhum usuario atualizado"});
+        }
+    }catch(err){
+        console.log("Erro no server:", err)
+        res.status(500).json({ mensagem: "Erro no servidor"});
     }
 }
 
