@@ -26,7 +26,7 @@ exports.post = async (req: Request, res: Response) => {
         let user = await loginUser.returnUserBasedEmailPassword(email, password);
         let userWithEmailOnly = await loginUser.returnUserBasedEmail(email);
         if (user) {
-            const token: String = createToken(user.id, user.accounttype, user.name, user.email, user.password);
+            const token: String = createToken(user.id, user.accounttype, user.name, user.numberwhats, user.email, user.password);
             await loginUser.resetAttemptsBasedEmail(email);
             res.status(200).json({ mensagem: "Login bem-sucedido", token, tentativas: 0 });
         } else {

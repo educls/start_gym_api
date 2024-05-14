@@ -12,6 +12,16 @@ exports.postUser = async (accountType: String, photo: Int8Array[], name: String,
     return rows;
 }
 
+exports.postNewTeacher = async (name: String, email: String, password: String, teachertype: String, numberwhats: String) => {
+
+    await db.connect();
+
+    const rows: any[] = await db.query('INSERT INTO usuarios (accounttype, name, numberwhats, email, password, teachertype) values (?, ?, ?, ?, ?, ?)', ['professor', name, numberwhats, email, password, teachertype]);
+
+    await db.close();
+    return rows;
+}
+
 exports.updateUserPhoto = async (userId: number, photo: string) => {
     await db.connect();
 
@@ -76,4 +86,22 @@ exports.getImgUser = async (id: Int16Array) => {
 
     await db.close();
     return rows[0].photo;
+}
+
+exports.selectProfessores = async () => {
+    await db.connect();
+
+    const rows = await db.query('SELECT id, name, numberwhats, photo from usuarios WHERE accounttype = ?', ['professor']);
+
+    await db.close();
+    return rows;
+}
+
+exports.selectUser = async (id: number) => {
+    await db.connect();
+
+    const rows = await db.query('SELECT id, accounttype, name, numberwhats, email, password from usuarios WHERE id = ?', [id]);
+
+    await db.close();
+    return rows;
 }

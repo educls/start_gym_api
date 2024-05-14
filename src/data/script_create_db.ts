@@ -19,6 +19,7 @@ const createDatabase = async () => {
       CREATE TABLE IF NOT EXISTS usuarios (
         id INT AUTO_INCREMENT PRIMARY KEY,
         accounttype VARCHAR(255) NOT NULL,
+        teachertype VARCHAR(255),
         photo blob,
         name VARCHAR(255) NOT NULL,
         numberwhats VARCHAR(255) NOT NULL UNIQUE,
@@ -32,6 +33,7 @@ const createDatabase = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
     `);
+
     console.log('Tabela de usuários criada com sucesso!');
 
     await connection.query(`insert into usuarios (accounttype, name, numberwhats, email, password) values ('aluno', 'teste', '123456789', 'teste@teste.br', '000')`);
