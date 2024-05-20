@@ -105,3 +105,48 @@ exports.selectUser = async (id: number) => {
     await db.close();
     return rows;
 }
+
+exports.insertQuestionaryAvaliacaoFisica = async (id_user: number, Objetivos: String, Peso: String, Altura: String, Nascimento: String) => {
+    await db.connect();
+
+    const rows = await db.query(
+        'INSERT INTO avaliacao_fisica (id_usuario, objetivos, peso, altura, nascimento) VALUES (?, ?, ?, ?, STR_TO_DATE(?, "%d/%m/%Y"))',
+        [id_user, Objetivos, Peso, Altura, Nascimento]
+    );
+
+    await db.close();
+    return rows;
+}
+
+exports.insertQuestionaryHistoricoDoencas = async (id_user: number, Doencas: String, Dores: String, Adicional: String) => {
+    await db.connect();
+
+    const rows = await db.query('INSERT INTO historico_doencas (id_usuario, doencas, dores, adicional) VALUES (?, ?, ?, ?)', [id_user, Doencas, Dores, Adicional]);
+
+    await db.close();
+    return rows;
+}
+
+exports.insertQuestionaryHistoricoAtividades = async (id_user: number, AtividadeFisica: String, Dieta: String, Suplementos: String, Fuma: String, BebidaAlcoolica: String, MedicamentoControlado: String, Cirurgia: String) => {
+    await db.connect();
+
+    const rows = await db.query(
+        'INSERT INTO historico_atividades (id_usuario, atividade_fisica, dieta, suplementos, fuma, bebida_alcoolica, medicamento_controlado, cirurgia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+        [id_user, AtividadeFisica, Dieta, Suplementos, Fuma, BebidaAlcoolica, MedicamentoControlado, Cirurgia]
+    );
+
+    await db.close();
+    return rows;
+}
+
+exports.insertQuestionaryMinhaEvolucao = async (id_user: number, Foto1: String, Foto2: String, Foto3: String) => {
+    await db.connect();
+
+    const rows = await db.query(
+        'INSERT INTO minha_evolucao (id_usuario, foto1, foto2, foto3) VALUES (?, ?, ?, ?)', 
+        [id_user, Foto1, Foto2, Foto3]
+    );
+
+    await db.close();
+    return rows;
+}

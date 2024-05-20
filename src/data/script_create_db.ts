@@ -36,6 +36,63 @@ const createDatabase = async () => {
 
     console.log('Tabela de usuários criada com sucesso!');
 
+    await connection.query(`
+      CREATE TABLE avaliacao_fisica (
+        id_avaliacao INT AUTO_INCREMENT PRIMARY KEY,
+        id_usuario INT,
+        objetivos VARCHAR(255),
+        peso VARCHAR(255),
+        altura VARCHAR(255),
+        nascimento DATE,
+        data_insercao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+      );
+    `);
+    console.log('Tabela de avaliacao_fisica criada com sucesso!');
+
+    await connection.query(`
+      CREATE TABLE historico_doencas (
+        id_doenca INT AUTO_INCREMENT PRIMARY KEY,
+        id_usuario INT,
+        doencas VARCHAR(255),
+        dores VARCHAR(255),
+        adicional VARCHAR(255),
+        data_insercao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+      );  
+    `);
+    console.log('Tabela de historico_doencas criada com sucesso!');
+
+    await connection.query(`
+      CREATE TABLE historico_atividades (
+        id_atividade INT AUTO_INCREMENT PRIMARY KEY,
+        id_usuario INT,
+        atividade_fisica VARCHAR(255),
+        dieta VARCHAR(255),
+        suplementos VARCHAR(255),
+        fuma VARCHAR(255),
+        bebida_alcoolica VARCHAR(255),
+        medicamento_controlado VARCHAR(255),
+        cirurgia VARCHAR(255),
+        data_insercao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+      );
+    `);
+    console.log('Tabela de historico_atividades criada com sucesso!');
+
+    await connection.query(`
+      CREATE TABLE minha_evolucao (
+        id_evolucao INT AUTO_INCREMENT PRIMARY KEY,
+        id_usuario INT,
+        foto1 MEDIUMBLOB,
+        foto2 MEDIUMBLOB,
+        foto3 MEDIUMBLOB,
+        data_insercao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+      );
+    `);
+    console.log('Tabela de minha_evolucao criada com sucesso!');
+
     await connection.query(`insert into usuarios (accounttype, name, numberwhats, email, password) values ('aluno', 'teste', '123456789', 'teste@teste.br', '000')`);
     console.log('Usuário teste criado!')
 
