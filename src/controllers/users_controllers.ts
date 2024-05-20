@@ -101,21 +101,21 @@ exports.sendQuestionary = async (req: any, res: Response) => {
         const typeQuestionary = req.params.type;
         let result;
         console.log(req.body);
-        
+  
         switch (typeQuestionary) {
-            case 'avalFisica':
+            case 'avaliacao_fisica':
                 const { Objetivos, Peso, Altura, Nascimento } = req.body;
                 result = await users_service.insertQuestionaryAvaliacaoFisica(id_user, Objetivos, Peso, Altura, Nascimento);
                 break;
-            case 'histDoencas':
+            case 'historico_doencas':
                 const { Doencas, Dores, Adicional } = req.body;
                 result = await users_service.insertQuestionaryHistoricoDoencas(id_user, Doencas, Dores, Adicional);
                 break;
-            case 'histAtividades':
+            case 'historico_atividades':
                 const { AtividadeFisica, Dieta, Suplementos, Fuma, BebidaAlcoolica, MedicamentoControlado, Cirurgia } = req.body;
                 result = await users_service.insertQuestionaryHistoricoAtividades(id_user, AtividadeFisica, Dieta, Suplementos, Fuma, BebidaAlcoolica, MedicamentoControlado, Cirurgia);
                 break;
-            case 'minhaEvolucao':
+            case 'minha_evolucao':
                 const { Foto1, Foto2, Foto3 } = req.body;
                 result = await users_service.insertQuestionaryMinhaEvolucao(id_user, Foto1, Foto2, Foto3);
                 break;
@@ -126,6 +126,24 @@ exports.sendQuestionary = async (req: any, res: Response) => {
             Resp.resp201(res, 'Questionario Salvo');
         }else{
             Resp.resp400(res, 'Questionario não Salvo');
+        }
+
+    } catch (err) {
+        console.log(err);
+        Resp.resp500(res, 'Ocorreu um erro no servidor');
+    }
+}
+exports.getQuestionary = async (req: any, res: Response) => {
+    try {
+        const id_user = req.user.id;
+        const typeQuestionary = req.params.type;
+        
+        let result = await users_service.selectQuestionary(id_user, typeQuestionary);
+        
+        if (result) {
+            Resp.resp201(res, result);
+        }else{
+            Resp.resp400(res, 'Questionario não Encontrado');
         }
 
     } catch (err) {

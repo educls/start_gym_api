@@ -20,7 +20,7 @@ const createDatabase = async () => {
         id INT AUTO_INCREMENT PRIMARY KEY,
         accounttype VARCHAR(255) NOT NULL,
         teachertype VARCHAR(255),
-        photo blob,
+        photo MEDIUMBLOB,
         name VARCHAR(255) NOT NULL,
         numberwhats VARCHAR(255) NOT NULL UNIQUE,
         email VARCHAR(255) NOT NULL UNIQUE,

@@ -17,6 +17,8 @@ Router.get('/get-info-professores', auth_verify, users_controller.getInfoProfess
 
 Router.post('/send-questionary/:type', auth_verify, users_controller.sendQuestionary);
 
+Router.get('/get-questionary/:type', auth_verify, users_controller.getQuestionary);
+
 module.exports = Router;
 
 

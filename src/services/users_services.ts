@@ -150,3 +150,15 @@ exports.insertQuestionaryMinhaEvolucao = async (id_user: number, Foto1: String, 
     await db.close();
     return rows;
 }
+
+exports.selectQuestionary = async (id_user: number, type: String) => {
+    await db.connect();
+
+    const rows = await db.query(
+        `SELECT * FROM ${type} WHERE id_usuario = ?`, 
+        [id_user]
+    );
+
+    await db.close();
+    return rows;
+}
