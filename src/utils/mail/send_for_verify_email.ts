@@ -2,7 +2,7 @@ const nodemailerr = require('nodemailer');
 const generate_codee = require('../generate/generate_code')
 import { BASE_URL } from '../constants/constants';
 
-function sendForVerifyEmail(token: String, email: String) {
+function sendForVerifyEmail(token: String, email: String, name: String, password: String) {
     const transporter = nodemailerr.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -21,10 +21,10 @@ function sendForVerifyEmail(token: String, email: String) {
         html: `
             <p><img src="cid:logo_for_email" width=500></p>
             <br>
-            <p>Olá ${email},</p>
+            <p>Olá ${name},</p>
             <p>Foi feita uma solicitação para a criação de uma conta <br>Por favor, clique no link abaixo para confirmar seu email:</p>
             <br>
-            <h2><a href="${BASE_URL}/confirmar-email/${token}">Confirmar Email</a></h2>
+            <h2><a href="${BASE_URL}/usuarios/sign-up-aluno/${token}/${name}/${email}/${password}">Confirmar Email</a></h2>
             <p>Se você não solicitou essa criação de conta, ignore este e-mail.</p>
             <br>
             <p>Atenciosamente.</p>

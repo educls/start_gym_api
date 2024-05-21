@@ -9,19 +9,19 @@ const verifyEmail = new VerifyEmail();
 
 exports.post = async (req: Request, res: Response) => {
     try{
-        const { email } = req.body;
+        const { token, name, email, password } = req.params;
         let userWithEmailOnly = await loginUser.returnIfEmailExists(email);
         if (userWithEmailOnly !== undefined) {
             res.status(401).json({ mensagem: "Email já Cadastrado / Verificado"});
         }else{
-            const token: String = createTokenForVerifyEmail(email);
-            const result = await verifyEmail.setTokenAndEmailOnDBForVerifyEmail(token, email);
-            if (result.affectedRows == 1) {
-                await sendForVerifyEmail(token, email);
-                res.status(201).json({ mensagem: "Email de verificação enviado"});
-            }else{
-                res.status(201).json({ mensagem: "Erro ao enviar email de Verificação"});
-            }
+            // const token: String = createTokenForVerifyEmail(email);
+            // const result = await verifyEmail.setTokenAndEmailOnDBForVerifyEmail(token, email);
+            // if (result.affectedRows == 1) {
+                // }else{
+                    // }
+                    await sendForVerifyEmail(token, email, name, password);
+                    res.status(201).json({ mensagem: "Email de verificação enviado"});
+                    // res.status(201).json({ mensagem: "Erro ao enviar email de Verificação"});
         }
 
     }catch(err){

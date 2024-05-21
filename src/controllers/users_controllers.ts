@@ -26,13 +26,30 @@ exports.post = async (req: Request, res: Response) => {
 exports.signUpProfessor = async (req: Request, res: Response) => {
     try {
         const { name, email, password, teachertype } = req.body;
-        const numberwhats = gera_id();
-        const result = await users_service.postNewTeacher(name, email, password, teachertype, numberwhats);
+
+        const result = await users_service.postNewTeacher(name, email, password, teachertype);
 
         if (result == undefined) {
             Resp.resp401(res, 'Professor não Cadastrado');
         } else if (result.affectedRows == 1) {
             res.status(201).json({ mensagem: "Professor Cadastrado", data: result });
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.signUpAluno = async (req: Request, res: Response) => {
+    try {
+        const { token, name, email, password } = req.params;
+
+        const result = await users_service.postNewAluno(name, email, password);
+
+        if (result == undefined) {
+            Resp.resp401(res, 'Aluno não Cadastrado');
+        } else if (result.affectedRows == 1) {
+            res.status(201).json({ mensagem: "Aluno Cadastrado", data: result });
         }
 
     } catch (err) {
@@ -139,6 +156,21 @@ exports.getQuestionary = async (req: any, res: Response) => {
         const typeQuestionary = req.params.type;
         
         let result = await users_service.selectQuestionary(id_user, typeQuestionary);
+
+        if (typeQuestionary === 'minha_evolucao') {
+            for (let index = 0; index < result.length; index++) {
+                let element = result[index];
+                for (let indexj = 1; indexj <= 3; indexj++) {
+                    let el = element[`foto${indexj}`];
+                    if (el !== null) {
+                        let base64Img: string = el.toString('utf-8');
+                        element[`foto${indexj}`] = base64Img;
+                    }
+                }
+                result[index] = element;
+            } 
+            console.log(result);
+        }
         
         if (result) {
             Resp.resp201(res, result);
@@ -154,9 +186,13 @@ exports.getQuestionary = async (req: any, res: Response) => {
 
 exports.get = async (req: any, res: Response) => {
     try {
+        let textData: any = '';
         const photoBytesRes = await users_service.getImgUser(req.user.id);
         const result = await users_service.selectUser(req.user.id);
-        const textData: string = photoBytesRes.toString('utf-8');
+
+        if (photoBytesRes !== null) {
+            textData = photoBytesRes.toString('utf-8');
+        }
 
         if (req.user) {
             Resp.resp200UserInfos(res, result[0], textData);
@@ -173,6 +209,30 @@ exports.get = async (req: any, res: Response) => {
 exports.getInfoProfessores = async (req: any, res: Response) => {
     try {
         const result = await users_service.selectProfessores();
+        let index = 0;
+
+        result.forEach((element: any) => {
+            if (element['photo'] != null) {
+                result[index]['photo'] = element['photo'].toString('utf-8');
+            }
+            index++;
+        });
+
+        if (result) {
+            Resp.resp200(res, result);
+        } else {
+            Resp.resp401(res, 'Token inválido / token expirado')
+        }
+
+    } catch (err) {
+        console.log(err);
+        Resp.resp500(res, 'Ocorreu um erro no servidor');
+    }
+}
+
+exports.getInfoAlunos = async (req: any, res: Response) => {
+    try {
+        const result = await users_service.selectAlunos();
         let index = 0;
 
         result.forEach((element: any) => {

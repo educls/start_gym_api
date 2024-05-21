@@ -4,7 +4,10 @@ import { Request, Response } from "express";
 const SECRET_KEY: String = 'hsfuihs78fh3whf237hfwh783y982u9hfsju';
 
 function verificaToken(req: any, res: Response, next: any) {
-    const token = req.header('Authorization');
+    let token = req.header('Authorization');
+    if (token == undefined) {
+      token = req.params.token;
+    }
   
     if (!token) {
       return res.status(401).json(

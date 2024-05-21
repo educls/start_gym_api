@@ -22,7 +22,7 @@ const createDatabase = async () => {
         teachertype VARCHAR(255),
         photo MEDIUMBLOB,
         name VARCHAR(255) NOT NULL,
-        numberwhats VARCHAR(255) NOT NULL UNIQUE,
+        numberwhats VARCHAR(255) UNIQUE,
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
         blocked BOOLEAN DEFAULT false,

@@ -12,11 +12,21 @@ exports.postUser = async (accountType: String, photo: Int8Array[], name: String,
     return rows;
 }
 
-exports.postNewTeacher = async (name: String, email: String, password: String, teachertype: String, numberwhats: String) => {
+exports.postNewTeacher = async (name: String, email: String, password: String, teachertype: String) => {
 
     await db.connect();
 
-    const rows: any[] = await db.query('INSERT INTO usuarios (accounttype, name, numberwhats, email, password, teachertype) values (?, ?, ?, ?, ?, ?)', ['professor', name, numberwhats, email, password, teachertype]);
+    const rows: any[] = await db.query('INSERT INTO usuarios (accounttype, name, email, password, teachertype) values (?, ?, ?, ?, ?, ?)', ['professor', name, email, password, teachertype]);
+
+    await db.close();
+    return rows;
+}
+
+exports.postNewAluno = async (name: String, email: String, password: String) => {
+
+    await db.connect();
+
+    const rows: any[] = await db.query('INSERT INTO usuarios (accounttype, name, email, password) values (?, ?, ?, ?)', ['aluno', name, email, password]);
 
     await db.close();
     return rows;
@@ -92,6 +102,15 @@ exports.selectProfessores = async () => {
     await db.connect();
 
     const rows = await db.query('SELECT id, name, numberwhats, photo from usuarios WHERE accounttype = ?', ['professor']);
+
+    await db.close();
+    return rows;
+}
+
+exports.selectAlunos = async () => {
+    await db.connect();
+
+    const rows = await db.query('SELECT id, name, numberwhats, email, photo from usuarios WHERE accounttype = ?', ['aluno']);
 
     await db.close();
     return rows;
