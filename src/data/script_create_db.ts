@@ -93,7 +93,9 @@ const createDatabase = async () => {
     `);
     console.log('Tabela de minha_evolucao criada com sucesso!');
 
-    await connection.query(`insert into usuarios (accounttype, name, numberwhats, email, password) values ('aluno', 'teste', '123456789', 'teste@teste.br', '000')`);
+    await connection.query(`insert into usuarios (accounttype, name, email, password) values ('aluno', 'teste aluno', 'testAluno@teste.br', '123')`);
+    await connection.query(`insert into usuarios (accounttype, name, email, password) values ('professor', 'teste professor', 'testeProfessor@teste.br', '123')`);
+    await connection.query(`insert into usuarios (accounttype, name, email, password) values ('admin', 'teste admin', 'testeAdmin@teste.br', '123')`);
     console.log('Usuário teste criado!')
 
     await connection.query(`
