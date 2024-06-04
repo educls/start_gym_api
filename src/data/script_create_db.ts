@@ -17,7 +17,7 @@ const createDatabase = async () => {
 
     await connection.query(`
       CREATE TABLE IF NOT EXISTS usuarios (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id VARCHAR(255) PRIMARY KEY NOT NULL,
         accounttype VARCHAR(255) NOT NULL,
         teachertype VARCHAR(255),
         photo MEDIUMBLOB,
@@ -37,9 +37,9 @@ const createDatabase = async () => {
     console.log('Tabela de usuários criada com sucesso!');
 
     await connection.query(`
-      CREATE TABLE avaliacao_fisica (
+      CREATE TABLE IF NOT EXISTS avaliacao_fisica (
         id_avaliacao INT AUTO_INCREMENT PRIMARY KEY,
-        id_usuario INT,
+        id_usuario VARCHAR(255),
         objetivos VARCHAR(255),
         peso VARCHAR(255),
         altura VARCHAR(255),
@@ -51,9 +51,9 @@ const createDatabase = async () => {
     console.log('Tabela de avaliacao_fisica criada com sucesso!');
 
     await connection.query(`
-      CREATE TABLE historico_doencas (
+      CREATE TABLE IF NOT EXISTS historico_doencas (
         id_doenca INT AUTO_INCREMENT PRIMARY KEY,
-        id_usuario INT,
+        id_usuario VARCHAR(255),
         doencas VARCHAR(255),
         dores VARCHAR(255),
         adicional VARCHAR(255),
@@ -64,9 +64,9 @@ const createDatabase = async () => {
     console.log('Tabela de historico_doencas criada com sucesso!');
 
     await connection.query(`
-      CREATE TABLE historico_atividades (
+      CREATE TABLE IF NOT EXISTS historico_atividades (
         id_atividade INT AUTO_INCREMENT PRIMARY KEY,
-        id_usuario INT,
+        id_usuario VARCHAR(255),
         atividade_fisica VARCHAR(255),
         dieta VARCHAR(255),
         suplementos VARCHAR(255),
@@ -81,9 +81,9 @@ const createDatabase = async () => {
     console.log('Tabela de historico_atividades criada com sucesso!');
 
     await connection.query(`
-      CREATE TABLE minha_evolucao (
+      CREATE TABLE IF NOT EXISTS minha_evolucao (
         id_evolucao INT AUTO_INCREMENT PRIMARY KEY,
-        id_usuario INT,
+        id_usuario VARCHAR(255),
         foto1 MEDIUMBLOB,
         foto2 MEDIUMBLOB,
         foto3 MEDIUMBLOB,
@@ -93,9 +93,9 @@ const createDatabase = async () => {
     `);
     console.log('Tabela de minha_evolucao criada com sucesso!');
 
-    await connection.query(`insert into usuarios (accounttype, name, email, password) values ('aluno', 'teste aluno', 'testAluno@teste.br', '123')`);
-    await connection.query(`insert into usuarios (accounttype, name, email, password) values ('professor', 'teste professor', 'testeProfessor@teste.br', '123')`);
-    await connection.query(`insert into usuarios (accounttype, name, email, password) values ('admin', 'teste admin', 'testeAdmin@teste.br', '123')`);
+    await connection.query(`insert into usuarios (id, accounttype, name, email, password) values ('aoiuhjdujaw', 'aluno', 'aluno', 'testAluno@teste.br', '123')`);
+    await connection.query(`insert into usuarios (id, accounttype, name, email, password) values ('aoiuhawdjdujaw','professor', 'professor', 'testeProfessor@teste.br', '456')`);
+    await connection.query(`insert into usuarios (id, accounttype, name, email, password) values ('aoiuhrgrjdujaw','admin', 'admin', 'testeAdmin@teste.br', '789')`);
     console.log('Usuário teste criado!')
 
     await connection.query(`

@@ -9,6 +9,8 @@ const BLOCK_DURATION_MINUTES = 1;
 exports.post = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
+        console.log(email)
+        console.log(password)
         let attempt: any;
         let attemptForResponse: any;
 
@@ -53,51 +55,6 @@ exports.post = async (req: Request, res: Response) => {
         if(userWithEmailOnly && user == undefined && attemptForResponse.login_attempts < MAX_LOGIN_ATTEMPTS){
             res.status(401).json({ mensagem: "Senha Inválida", tentativas: attemptForResponse.login_attempts });
         }
-
-        // if (!user) {
-        //     const currentTime = new Date();
-        //     let userVerified = await loginUser.returnIfTimeBlockedPass(currentTime, email);
-
-        //     if (userVerified == 'unlock') {
-        //         await loginUser.unblockUser(email);
-        //     } else {
-        //         res.status(401).json({ mensagem: "Usuário bloqueado devido a múltiplas tentativas de login falhas" });
-        //     }
-        // }
-
-
-
-        // if (user) {
-        //     // Resetar as tentativas de login ao fazer login bem-sucedido
-        //     await loginUser.resetAttemptsBasedEmail(email);
-        //     res.status(200).json({ mensagem: "Login bem-sucedido", user });
-        // } else {
-        //     // Verificar se o usuário atingiu o limite de tentativas
-        //     const attempt = await loginUser.returnUserAttempts(email);
-
-        //     // Incrementar o número de tentativas de login falhas
-        //     await loginUser.incrementLoginAttemptBasedEmail(email);
-
-        //     if (attempt && attempt.login_attempts >= MAX_LOGIN_ATTEMPTS) {
-        //         // Bloquear a conta por um determinado período
-        //         const blockedAt = new Date();
-        //         const blockUntil = new Date();
-        //         blockUntil.setMinutes(blockUntil.getMinutes() + BLOCK_DURATION_MINUTES);
-        //         if (attempt.login_attempts > 5) {
-        //             res.status(401).json({ mensagem: "Usuário bloqueado devido a múltiplas tentativas de login falhas" });
-        //         } else {
-        //             await loginUser.blockAccountCertainPeriod(blockedAt, blockUntil, email);
-        //             res.status(401).json({ mensagem: "Usuário bloqueado devido a múltiplas tentativas de login falhas" });
-        //         }
-
-        //     } else {
-        //         res.status(401).json({ mensagem: "Credenciais inválidas", tentativas: attempt.login_attempts });
-
-        //     }
-        // }
-
-
-
 
     } catch (err) {
         console.log(err);

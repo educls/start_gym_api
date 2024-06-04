@@ -12,3 +12,17 @@ module.exports = {
         }
     }
 };
+// module.exports = {
+//     development: {
+//         client: 'mysql',
+//         connection: {
+//             host: '23.111.128.161',
+//             user: 'dauracom_edu',
+//             password: 'dubaile@2307',
+//             database: 'dauracom_startgym'
+//         },
+//         migrations: {
+//             tableName: 'knex_migrations'
+//         }
+//     }
+// };

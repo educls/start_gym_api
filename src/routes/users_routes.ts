@@ -1,28 +1,32 @@
-import express from 'express';
-const Router = express.Router();
+import { router } from '../routes';
+import { createUserController } from '../useCases/CreateUser';
+import { getUserController } from '../useCases/GetUser';
+import { editUserController } from '../useCases/EditUser';
 const users_controller = require('../controllers/users_controllers')
 const auth_verify = require('../middleware/auth_verify')
 
-Router.post('/', users_controller.post);
+router.post('/', (request, response) => {return createUserController.handle(request, response)});
 
-Router.post('/sign-up-professor', auth_verify, users_controller.signUpProfessor);
+router.get('/get-user-info', auth_verify, (request, response) => {return getUserController.handle(request, response)});
 
-Router.get('/sign-up-aluno/:token/:name/:email/:password', auth_verify, users_controller.signUpAluno);
+router.put('/edit-user', auth_verify, (request, response) => {return editUserController.handle(request, response)});
 
-Router.put('/edit-user', auth_verify, users_controller.putUser);
 
-Router.post('/reset-password', users_controller.postResetPassword);
 
-Router.get('/get-user-info', auth_verify, users_controller.get);
+router.post('/sign-up-professor', auth_verify, users_controller.signUpProfessor);
 
-Router.get('/get-info-professores', auth_verify, users_controller.getInfoProfessores);
+router.get('/sign-up-aluno/:token/:name/:email/:password', auth_verify, users_controller.signUpAluno);
 
-Router.get('/get-info-alunos', auth_verify, users_controller.getInfoAlunos)
+router.post('/reset-password', users_controller.postResetPassword);
 
-Router.post('/send-questionary/:type', auth_verify, users_controller.sendQuestionary);
+router.get('/get-info-professores', auth_verify, users_controller.getInfoProfessores);
 
-Router.get('/get-questionary/:type', auth_verify, users_controller.getQuestionary);
+router.get('/get-info-alunos', auth_verify, users_controller.getInfoAlunos)
 
-module.exports = Router;
+router.post('/send-questionary/:type', auth_verify, users_controller.sendQuestionary);
+
+router.get('/get-questionary/:type', auth_verify, users_controller.getQuestionary);
+
+module.exports = router;
 
 
