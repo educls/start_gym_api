@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && node dist/app.js",
-    "startDev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "startDev": "tsnd --trace-deprecation --transpile-only --respawn --ignore-watch node_modules src/server.ts",
     "dev": "nodemon --exec ts-node src/app.ts",
     "build": "tsc",
     "createdb": "node src/data/script_create_db.ts"

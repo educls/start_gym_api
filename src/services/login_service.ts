@@ -12,7 +12,7 @@ class LoginUser{
     public async returnIfEmailExists(email: String): Promise<any>{
         await db.connect();
 
-        const [rows]: any[] = await db.query('select email from usuarios where email = ? AND blocked = false', [email]);
+        const [rows]: any[] = await db.query('select email from usuario where email = ? AND bloqueado = false', [email]);
 
         await db.close();
         return rows;
@@ -21,7 +21,7 @@ class LoginUser{
     public async returnUserBasedEmailPassword(email: String, password: String): Promise<any>{
         await db.connect();
 
-        const [rows]: any[] = await db.query('select * from usuarios where email = ? and password = ? AND blocked = false', [email, password]);
+        const [rows]: any[] = await db.query('select * from usuario where email = ? and password = ? AND bloqueado = false', [email, password]);
 
         await db.close();
         return rows;
@@ -30,7 +30,7 @@ class LoginUser{
     public async returnUserBasedEmail(email: String): Promise<any>{
         await db.connect();
 
-        const [rows]: any[] = await db.query('select * from usuarios where email = ? AND blocked = false', [email]);
+        const [rows]: any[] = await db.query('select * from usuario where email = ? AND bloqueado = false', [email]);
 
         await db.close();
         return rows;
@@ -39,7 +39,7 @@ class LoginUser{
     public async resetAttemptsBasedEmail(email: String){
         await db.connect();
 
-        await db.query('UPDATE usuarios SET login_attempts = 0 WHERE email = ?', [email]);
+        await db.query('UPDATE usuario SET login_tentativas = 0 WHERE email = ?', [email]);
 
         await db.close();
     }
@@ -47,7 +47,7 @@ class LoginUser{
     public async verifyIfUserBlocked(email: String): Promise<any>{
         await db.connect();
 
-        const [rows]: any[] = await db.query('SELECT * FROM usuarios WHERE email = ? AND blocked = true', [email]);
+        const [rows]: any[] = await db.query('SELECT * FROM usuario WHERE email = ? AND bloqueado = true', [email]);
 
         await db.close();
         return rows;
@@ -56,7 +56,7 @@ class LoginUser{
     public async incrementLoginAttemptBasedEmail(email: String){
         await db.connect();
 
-        await db.query('UPDATE usuarios SET login_attempts = login_attempts + 1 WHERE email = ?', [email]);
+        await db.query('UPDATE usuario SET login_tentativas = login_tentativas + 1 WHERE email = ?', [email]);
 
         await db.close();
     }
@@ -64,7 +64,7 @@ class LoginUser{
     public async returnUserAttempts(email: String): Promise<any>{
         await db.connect();
 
-        const [attempt]: any[] = await db.query('SELECT login_attempts FROM usuarios WHERE email = ?', [email]);
+        const [attempt]: any[] = await db.query('SELECT login_tentativas FROM usuario WHERE email = ?', [email]);
 
         await db.close();
         return attempt;
@@ -73,7 +73,7 @@ class LoginUser{
     public async blockAccountCertainPeriod(blocked_at: any, blockUntil: any, email: String){
         await db.connect();
 
-        await db.query('UPDATE usuarios SET blocked = true, blocked_at = ?, blocked_until = ? WHERE email = ?', [blocked_at, blockUntil, email]);
+        await db.query('UPDATE usuario SET bloqueado = true, bloqueado_em = ?, bloqueado_ate = ? WHERE email = ?', [blocked_at, blockUntil, email]);
         
         await db.close();
     }
@@ -81,7 +81,7 @@ class LoginUser{
     public async returnIfTimeBlockedPass(currentTime: any, email: string): Promise<any>{
         await db.connect();
 
-        const [user] = await db.query('SELECT * FROM usuarios WHERE email = ? AND blocked = true AND blocked_until <= ?', [email, currentTime]);
+        const [user] = await db.query('SELECT * FROM usuario WHERE email = ? AND bloqueado = true AND bloqueado_ate <= ?', [email, currentTime]);
 
         await db.close();
 
@@ -95,7 +95,7 @@ class LoginUser{
     public async unblockUser(email: String){
         await db.connect();
 
-        await db.query('UPDATE usuarios SET blocked = false, blocked_at = NULL, blocked_until = NULL, login_attempts = 0 WHERE email = ?', [email]);
+        await db.query('UPDATE usuario SET bloqueado = false, bloqueado_em = NULL, bloqueado_ate = NULL, login_tentativas = 0 WHERE email = ?', [email]);
 
         await db.close();
     }

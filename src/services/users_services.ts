@@ -6,7 +6,7 @@ exports.postUser = async (accountType: String, photo: Int8Array[], name: String,
 
     await db.connect();
 
-    const rows: any[] = await db.query('insert into usuarios (accounttype, photo, name, numberwhats, email, password) values (?, ?, ?, ?, ?, ?)', [accountType, photo, name, numberWhats, email, password]);
+    const rows: any[] = await db.query('insert into usuario (tipo_usuario, foto, nome, telefone, email, password) values (?, ?, ?, ?, ?, ?)', [accountType, photo, name, numberWhats, email, password]);
 
     await db.close();
     return rows;
@@ -16,7 +16,7 @@ exports.postNewTeacher = async (name: String, email: String, password: String, t
 
     await db.connect();
 
-    const rows: any[] = await db.query('INSERT INTO usuarios (accounttype, name, email, password, teachertype) values (?, ?, ?, ?, ?, ?)', ['professor', name, email, password, teachertype]);
+    const rows: any[] = await db.query('INSERT INTO usuario (tipo_usuario, nome, email, password) values (?, ?, ?, ?)', ['professor', name, email, password]);
 
     await db.close();
     return rows;
@@ -26,7 +26,7 @@ exports.postNewAluno = async (name: String, email: String, password: String) => 
 
     await db.connect();
 
-    const rows: any[] = await db.query('INSERT INTO usuarios (accounttype, name, email, password) values (?, ?, ?, ?)', ['aluno', name, email, password]);
+    const rows: any[] = await db.query('INSERT INTO usuario (tipo_usuario, nome, email, password) values (?, ?, ?, ?)', ['aluno', name, email, password]);
 
     await db.close();
     return rows;
@@ -35,7 +35,7 @@ exports.postNewAluno = async (name: String, email: String, password: String) => 
 exports.updateUserPhoto = async (userId: number, photo: string) => {
     await db.connect();
 
-    const rows: any[] = await db.query('update usuarios set photo = ? where id = ?', [photo, userId]);
+    const rows: any[] = await db.query('update usuario set foto = ? where id_usuario = ?', [photo, userId]);
 
     await db.close();
     return rows;
@@ -44,7 +44,7 @@ exports.updateUserPhoto = async (userId: number, photo: string) => {
 exports.updateUserName = async (userId: number, name: string) => {
     await db.connect();
 
-    const rows: any[] = await db.query('update usuarios set name = ? where id = ?', [name, userId]);
+    const rows: any[] = await db.query('update usuario set nome = ? where id_usuario = ?', [name, userId]);
 
     await db.close();
     return rows;
@@ -53,7 +53,7 @@ exports.updateUserName = async (userId: number, name: string) => {
 exports.updateUserNumberWhats = async (userId: number, numberWhats: string) => {
     await db.connect();
 
-    const rows: any[] = await db.query('update usuarios set numberwhats = ? where id = ?', [numberWhats, userId]);
+    const rows: any[] = await db.query('update usuario set telefone = ? where id_usuario = ?', [numberWhats, userId]);
 
     await db.close();
     return rows;
@@ -62,7 +62,7 @@ exports.updateUserNumberWhats = async (userId: number, numberWhats: string) => {
 exports.updateUserEmail = async (userId: number, email: string) => {
     await db.connect();
 
-    const rows: any[] = await db.query('update usuarios set email = ? where id = ?', [email, userId]);
+    const rows: any[] = await db.query('update usuario set email = ? where id_usuario = ?', [email, userId]);
 
     await db.close();
     return rows;
@@ -71,7 +71,7 @@ exports.updateUserEmail = async (userId: number, email: string) => {
 exports.updateUserPassword = async (userId: number, password: string) => {
     await db.connect();
 
-    const rows: any[] = await db.query('update usuarios set password = ? where id = ?', [password, userId]);
+    const rows: any[] = await db.query('update usuario set password = ? where id_usuario = ?', [password, userId]);
 
     await db.close();
     return rows;
@@ -82,7 +82,7 @@ exports.resetPasswordUser = async (email: String, newPassword: String) => {
 
     await db.connect();
 
-    const rows: any[] = await db.query('UPDATE usuarios set password = ? where email = ?', [newPassword, email]);
+    const rows: any[] = await db.query('UPDATE usuario set password = ? where email = ?', [newPassword, email]);
 
     await db.close();
     return rows;
@@ -92,7 +92,7 @@ exports.getImgUser = async (id: Int16Array) => {
 
     await db.connect();
 
-    const rows = await db.query('SELECT photo FROM usuarios WHERE id = ?', [id]);
+    const rows = await db.query('SELECT foto FROM usuario WHERE id_usuario = ?', [id]);
 
     await db.close();
     return rows[0].photo;
@@ -101,7 +101,7 @@ exports.getImgUser = async (id: Int16Array) => {
 exports.selectProfessores = async () => {
     await db.connect();
 
-    const rows = await db.query('SELECT id, name, numberwhats, photo from usuarios WHERE accounttype = ?', ['professor']);
+    const rows = await db.query('SELECT id_usuario, nome, telefone, foto from usuario WHERE tipo_usuario = ?', ['professor']);
 
     await db.close();
     return rows;
@@ -110,7 +110,7 @@ exports.selectProfessores = async () => {
 exports.selectAlunos = async () => {
     await db.connect();
 
-    const rows = await db.query('SELECT id, name, numberwhats, email, photo from usuarios WHERE accounttype = ?', ['aluno']);
+    const rows = await db.query('SELECT id_usuario, nome, telefone, email, foto from usuario WHERE tipo_usuario = ?', ['aluno']);
 
     await db.close();
     return rows;
@@ -119,7 +119,7 @@ exports.selectAlunos = async () => {
 exports.selectUser = async (id: number) => {
     await db.connect();
 
-    const rows = await db.query('SELECT id, accounttype, name, numberwhats, email, password from usuarios WHERE id = ?', [id]);
+    const rows = await db.query('SELECT id_usuario, tipo_usuario, nome, telefone, email, password from usuario WHERE id_usuario = ?', [id]);
 
     await db.close();
     return rows;
