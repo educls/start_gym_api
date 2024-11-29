@@ -8,13 +8,14 @@ export class MysqlTrainingRepository implements ITrainingRepository {
     this.db = new Database()
   }
 
-  async createTraining(training: Training): Promise<void> {
+  async createTraining(training: Training): Promise<any> {
     await this.db.connect();
-    await this.db.query(
-      'insert into treino (id_treino, professor_id, nome_treino, obs_treino)', 
-      [training.id_treino, training.professor_id, training.nome_treino, training.obs_treino],
+    const rows = await this.db.query(
+      'insert into treino (professor_id, nome_treino, obs_treino) values (?, ?, ?)', 
+      [training.professor_id, training.nome_treino, training.obs_treino],
     );
     await this.db.close();
+    return rows.insertId;
   }
 
   async deleteTraining(id_training: string): Promise<void> {
@@ -38,6 +39,26 @@ export class MysqlTrainingRepository implements ITrainingRepository {
     const rows: Training = await this.db.query(
       'select * from treino where id_treino = ?', 
       [id_training],
+    );
+    await this.db.close();
+    return rows;
+  }
+
+  async getTrainingByIds(ids: number[]): Promise<Training[]> {
+    await this.db.connect();
+    const rows: [Training[] | any] = await this.db.query(
+      `select * from treino where id_treino in (${ids})`, 
+      [],
+    );
+    await this.db.close();
+    return rows;
+  }
+
+  async getTrainingByTeacherId(teacher_id: string): Promise<Training[]> {
+    await this.db.connect();
+    const rows: [Training[] | any] = await this.db.query(
+      'select * from treino where professor_id = ?', 
+      [teacher_id],
     );
     await this.db.close();
     return rows;

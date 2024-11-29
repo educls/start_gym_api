@@ -15,7 +15,8 @@ exports.post = async (req: Request, res: Response) => {
         if(isValidEmail){
             const services = email.split('@')[1].split('.')[0];
             let user = await loginUser.returnUserBasedEmail(email);
-            const result = await passwordRecovery.sendEmailForResetPassword(email, user.name);
+            console.log(user)
+            const result = await passwordRecovery.sendEmailForResetPassword(email, user.nome);
             res.status(200).json(
                 {message: "Email enviado com sucesso"}
             )

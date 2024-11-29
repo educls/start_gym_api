@@ -11,8 +11,8 @@ export class MysqlExercicioRepository implements IExercicioRepository {
   async createExercicio(exercicio: Exercicio): Promise<void> {
     await this.db.connect();
     await this.db.query(
-      'insert into exercicio (id_exercicio, nome, n_serie, n_repeticao, descanso, video, categoria_id',
-      [exercicio.id_exercicio, exercicio.nome, exercicio.n_serie, exercicio.n_repeticao, exercicio.descanso, exercicio.video, exercicio.categoria_id],
+      'insert into exercicio (nome, n_serie, n_repeticao, descanso, video, categoria_id) values (?, ?, ?, ?, ?, ?)',
+      [exercicio.nome, exercicio.n_serie, exercicio.n_repeticao, exercicio.descanso, exercicio.video, exercicio.categoria_id],
     );
     await this.db.close();
   }
@@ -43,9 +43,20 @@ export class MysqlExercicioRepository implements IExercicioRepository {
     await this.db.close();
     return rows;
   }
+
+  async findExerciciosByIds(ids: number[]): Promise<Exercicio[]> {
+    await this.db.connect();
+    const rows: [Exercicio[], any] = await this.db.query(
+      `SELECT * FROM exercicio WHERE id_exercicio IN (${ids})`,
+      [],
+    );
+    await this.db.close();
+    return rows;
+  }
+
   async deleteExercicio(id_exercicio: string): Promise<void> {
     await this.db.connect();
     await this.db.query('delete from exercicio where id_exercicio = ?', [id_exercicio]);
     await this.db.close();
-  }
+  } 
 }

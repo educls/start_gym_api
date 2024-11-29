@@ -19,4 +19,4 @@ export class CreateUserController extends Controller {
       return super.handleError(400, err.message || 'Unexpected Error', response);
     }
   }
-} 
+}

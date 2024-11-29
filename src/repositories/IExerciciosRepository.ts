@@ -6,4 +6,5 @@ export interface IExercicioRepository{
   findExercicio(id_exercicio: string): Promise<Exercicio>;
   findExercicios(): Promise<Exercicio[]>;
   deleteExercicio(id_exercicio: string): Promise<void>;
+  findExerciciosByIds(ids: number[]): Promise<Exercicio[]>;
 }

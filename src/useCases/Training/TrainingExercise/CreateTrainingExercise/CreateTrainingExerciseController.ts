@@ -11,6 +11,7 @@ export class CreateTrainingExerciseController extends Controller{
 
   async handle(request: Request, response: Response): Promise<Response>{
     const { treino_id, exercicio_id } = request.body;
+    console.log(treino_id, exercicio_id);
     try{
       await this.createTrainingExerciseUseCase.execute({ treino_id, exercicio_id });
       return super.handleSuccess('Training-Exercise Created.', response);

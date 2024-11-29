@@ -110,7 +110,7 @@ exports.selectProfessores = async () => {
 exports.selectAlunos = async () => {
     await db.connect();
 
-    const rows = await db.query('SELECT id_usuario, nome, telefone, email, foto from usuario WHERE tipo_usuario = ?', ['aluno']);
+    const rows = await db.query('SELECT id_usuario, nome, telefone, email, foto, status from usuario WHERE tipo_usuario = ?', ['aluno']);
 
     await db.close();
     return rows;

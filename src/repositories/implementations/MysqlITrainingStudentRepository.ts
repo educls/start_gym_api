@@ -6,29 +6,33 @@ export class MysqlTrainingStudentRepository implements ITrainingStudentRepositor
   private db: Database;
   constructor() {
     this.db = new Database()
-    this.db.connect()
   }
 
   async create(trainingStudent: TrainingStudent): Promise<void> {
+    await this.db.connect()
     await this.db.query(
-      'insert into treino_aluno (id_treino, aluno_id)', 
+      'insert into treino_aluno (treino_id, aluno_id) values (?, ?)', 
       [trainingStudent.id_treino, trainingStudent.aluno_id],
     );
+    await this.db.close();
   }
 
-  async get(training_id: string): Promise<TrainingStudent> {
+  async get(user_id: string): Promise<TrainingStudent> {
+    await this.db.connect()
     const rows: TrainingStudent = await this.db.query(
-      'select * from treino_aluno where id_treino = ?',
-      [training_id],
+      'select * from treino_aluno where aluno_id = ?',
+      [user_id],
     );
     await this.db.close();
     return rows;
   }
 
   async delete(training_id: string): Promise<void> {
+    await this.db.connect()
     await this.db.query(
-      'delete from treino_aluno where id_treino = ?',
+      'delete from treino_aluno where treino_id = ?',
       [training_id],
     );
+    await this.db.close();
   }
 }

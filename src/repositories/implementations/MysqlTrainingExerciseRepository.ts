@@ -11,14 +11,14 @@ export class MysqlTrainingExerciseRepository implements ITrainingExeciseReposito
 
   async create(trainingExercise: TrainingExercise): Promise<void> {
     await this.db.query(
-      'insert into treino_exercicio (id_treino, exercicio_id',
-      [trainingExercise.id_treino, trainingExercise.exercicio_id],
+      'insert into treino_exercicio (treino_id, exercicio_id) values (?, ?)',
+      [trainingExercise.treino_id, trainingExercise.exercicio_id],
     );
   }
 
   async get(training_id: string): Promise<TrainingExercise> {
     const rows: TrainingExercise = await this.db.query(
-      'select * from treino_exercicio where id_treino = ?',
+      'select * from treino_exercicio where treino_id = ?',
       [training_id],
     );
     return rows;
@@ -26,7 +26,7 @@ export class MysqlTrainingExerciseRepository implements ITrainingExeciseReposito
 
   async delete(training_id: string): Promise<void> {
     await this.db.query(
-      'delete from treino_exercicio where id_treino = ?',
+      'delete from treino_exercicio where treino_id = ?',
       [training_id],
     );
   }

@@ -114,7 +114,11 @@ exports.postResetPassword = async (req: Request, res: Response) => {
 
 exports.sendQuestionary = async (req: any, res: Response) => {
     try {
-        const id_user = req.user.id;
+        let id_user = req.user.id;
+        if (req.user.accounttype == 'professor') {
+            id_user = req.params.idAluno;
+        }
+        console.log(id_user);
         const typeQuestionary = req.params.type;
         let result;
         console.log(req.body);
@@ -152,7 +156,12 @@ exports.sendQuestionary = async (req: any, res: Response) => {
 }
 exports.getQuestionary = async (req: any, res: Response) => {
     try {
-        const id_user = req.user.id;
+        let id_user = req.user.id;
+        if (req.user.accounttype == 'professor') {
+            id_user = req.params.idAluno;
+        }
+
+
         const typeQuestionary = req.params.type;
         
         let result = await users_service.selectQuestionary(id_user, typeQuestionary);
@@ -212,8 +221,8 @@ exports.getInfoProfessores = async (req: any, res: Response) => {
         let index = 0;
 
         result.forEach((element: any) => {
-            if (element['photo'] != null) {
-                result[index]['photo'] = element['photo'].toString('utf-8');
+            if (element['foto'] != null) {
+                result[index]['foto'] = element['foto'].toString('utf-8');
             }
             index++;
         });
@@ -236,11 +245,12 @@ exports.getInfoAlunos = async (req: any, res: Response) => {
         let index = 0;
 
         result.forEach((element: any) => {
-            if (element['photo'] != null) {
-                result[index]['photo'] = element['photo'].toString('utf-8');
+            if (element['foto'] != null) {
+                result[index]['foto'] = element['foto'].toString('utf-8');
             }
             index++;
         });
+        console.log
 
         if (result) {
             Resp.resp200(res, result);

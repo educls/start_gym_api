@@ -19,6 +19,8 @@ export class CreateTrainingUseCase {
     }
 
     const training = new Training(data);
-    await this.trainingRepository.createTraining(training);
+    const result = await this.trainingRepository.createTraining(training);
+    
+    return result;
   }
 }

@@ -9,10 +9,17 @@ export class GetTrainingStudentController extends Controller{
     super();
   }
 
-  async handle(request: Request, response: Response): Promise<Response>{
-    const treino_id = request.params.id;
+  async handle(request: any, response: Response): Promise<Response>{
+    let user_id;
+
+    if (request.user.accounttype == 'professor') {
+      user_id = request.params.user_id;
+    }else{
+      user_id = request.user.id;
+    }
+
     try{  
-      const trainingStudent = await this.getTrainingStudentUseCase.execute({ treino_id });
+      const trainingStudent = await this.getTrainingStudentUseCase.execute({ user_id });
       return super.handleSuccess(trainingStudent, response);
     }catch(err: any){
       return super.handleError(400, err.message || 'Unexpected Error', response);

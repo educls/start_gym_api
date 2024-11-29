@@ -47,5 +47,6 @@ router.use('/verifica-email', require('./routes/verify_email_routes'));
 router.use('/confirmar-email', require('./routes/confirm_email_routes'));
 router.use('/check-if-email-is-verified', require('./routes/check_ifEmail_isVerified_routes'));
 router.use('/training', require('./routes/training_routes'));
+router.use('/exercise', require('./routes/exercise_routes'));
 
 export { router }

@@ -1,9 +1,9 @@
 
 export class TrainingExercise {
-  public readonly id_treino?: string;
+  public readonly treino_id?: string;
   public exercicio_id?: string;
 
-  constructor(props: Omit<TrainingExercise, "id_treino">) {
+  constructor(props: Omit<TrainingExercise, "treino_id">) {
     Object.assign(this, props);
   }
 }

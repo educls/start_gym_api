@@ -9,7 +9,7 @@ export class GetTrainingController extends Controller {
     super();
   }
 
-  async handle(request: Request, response: Response): Promise<Response>{
+  async handle(request: any, response: Response): Promise<Response>{
     const id_treino = request.params.id;
     try{
       const training = await this.getTrainingUseCase.execute({ id_treino });

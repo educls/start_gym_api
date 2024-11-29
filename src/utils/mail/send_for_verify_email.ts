@@ -17,14 +17,19 @@ function sendForVerifyEmail(token: String, email: String, name: String, password
     const mailOptions = {
         from: 'startgymsuporte@gmail.com',
         to: email,
-        subject: 'Confirmação de Email StartGym',
+        subject: 'Confirmação de Cadastro StartGym',
         html: `
             <p><img src="cid:logo_for_email" width=500></p>
             <br>
             <p>Olá ${name},</p>
-            <p>Foi feita uma solicitação para a criação de uma conta <br>Por favor, clique no link abaixo para confirmar seu email:</p>
+            <p>Sua conta foi criada com sucesso <br>Abaixo segue seus dados para login</p>
             <br>
-            <h2><a href="${BASE_URL}/usuarios/sign-up-aluno/${token}/${name}/${email}/${password}">Confirmar Email</a></h2>
+            <h2>Email</h2>
+            <p>${email}</p>
+            <br>
+            <h2>Senha</h2>
+            <p>${password}</p>
+            <br>
             <p>Se você não solicitou essa criação de conta, ignore este e-mail.</p>
             <br>
             <p>Atenciosamente.</p>
